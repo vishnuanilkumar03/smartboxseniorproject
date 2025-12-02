@@ -1,0 +1,49 @@
+.splash-container {
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  z-index: 9999;
+  transition: opacity 0.8s ease-out;
+}
+
+.fade-out {
+  opacity: 0;
+}
+
+.splash-content {
+  text-align: center;
+  color: white;
+  opacity: 1;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+}
+
+.splash-title {
+  font-size: 1.8rem;
+  letter-spacing: 4px;
+}
+
+.splash-logo-big {
+  width: 150px;
+  margin: 30px 0;
+}
+
+.splash-welcome {
+  font-size: 1.4rem;
+}
+
+.transition-logo {
+  position: absolute;
+  width: 40px;
+  opacity: 0;
+  transform: scale(3);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.transition-logo.show {
+  opacity: 1;
+  transform: scale(1);
+}

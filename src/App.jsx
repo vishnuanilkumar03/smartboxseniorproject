@@ -1,5 +1,6 @@
 // src/App.jsx
 import { useState } from "react";
+import SplashScreen from "./SplashScreen";   // <-- NEW
 import Login from "./Login";
 import Register from "./Register";
 import Dashboard from "./Dashboard";
@@ -11,7 +12,7 @@ import { auth, db } from "./firebase";
 import { ref, get } from "firebase/database";
 
 function App() {
-  const [page, setPage] = useState("login");
+  const [page, setPage] = useState("splash"); // <-- START WITH SPLASH
   const [role, setRole] = useState(null);
 
   const handleLoginSuccess = async () => {
@@ -33,6 +34,12 @@ function App() {
 
   return (
     <>
+      {/* ⭐ SPLASH SCREEN FIRST */}
+      {page === "splash" && (
+        <SplashScreen onFinish={() => setPage("login")} />
+      )}
+
+      {/* ⭐ LOGIN */}
       {page === "login" && (
         <div className="page">
           <Login
@@ -44,12 +51,14 @@ function App() {
         </div>
       )}
 
+      {/* ⭐ REGISTER */}
       {page === "register" && (
         <div className="page">
           <Register onRegister={() => setPage("login")} />
         </div>
       )}
 
+      {/* ⭐ HOMEOWNER DASHBOARD */}
       {page === "dashboard" && (
         <div className="page">
           <Dashboard
@@ -60,6 +69,7 @@ function App() {
         </div>
       )}
 
+      {/* ⭐ HOMEOWNER SETTINGS */}
       {page === "homeowner-settings" && (
         <div className="page">
           <HomeownerSettings
@@ -69,12 +79,14 @@ function App() {
         </div>
       )}
 
+      {/* ⭐ HOMEOWNER HISTORY */}
       {page === "homeowner-history" && (
         <div className="page">
           <HomeownerHistory onBack={() => setPage("dashboard")} />
         </div>
       )}
 
+      {/* ⭐ COURIER DASHBOARD */}
       {page === "courier" && (
         <div className="page">
           <CourierDashboard
@@ -84,6 +96,7 @@ function App() {
         </div>
       )}
 
+      {/* ⭐ COURIER SETTINGS */}
       {page === "courier-settings" && (
         <div className="page">
           <CourierSettings
