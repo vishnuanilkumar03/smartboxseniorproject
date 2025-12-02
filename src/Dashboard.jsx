@@ -8,9 +8,13 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
   const [status, setStatus] = useState("Unknown");
   const [logs, setLogs] = useState([]);
 
+  // Listen to box lock/unlock status
   useEffect(() => {
     const statusRef = ref(db, "devices/box1/status");
-    onValue(statusRef, (snapshot) => setStatus(snapshot.val()));
+    onValue(statusRef, (snapshot) => {
+      const val = snapshot.val();
+      if (val) setStatus(val);
+    });
 
     const logsRef = ref(db, "logs");
     onValue(logsRef, (snapshot) => {
@@ -21,14 +25,18 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
     });
   }, []);
 
-  const toggleLock = async () => {
-    const newStatus = status === "LOCKED" ? "UNLOCKED" : "LOCKED";
-    const time = new Date().toLocaleString();
-
-    await set(ref(db, "devices/box1/status"), newStatus);
-    push(ref(db, "logs"), { time, action: newStatus });
+  // ============= HOMEOWNER NFC REQUESTS ==============
+  const requestUnlock = async () => {
+    await set(ref(db, "devices/box1/homeowner_signal"), "UNLOCK_REQUEST");
+    alert("Tap your phone or NFC card on the SmartBox to UNLOCK.");
   };
 
+  const requestLock = async () => {
+    await set(ref(db, "devices/box1/homeowner_signal"), "LOCK_REQUEST");
+    alert("Tap your phone or NFC card on the SmartBox to LOCK.");
+  };
+
+  // ============= LOGOUT HANDLER =====================
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -40,6 +48,7 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
 
   return (
     <div className="card-wide">
+      {/* Top Bar */}
       <div
         style={{
           display: "flex",
@@ -50,14 +59,17 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
         <button className="btn btn-secondary" onClick={onSettings}>
           Settings
         </button>
+
         <button className="btn btn-secondary" onClick={handleLogout}>
           Log Out
         </button>
       </div>
 
+      {/* Header */}
       <h2>Homeowner Dashboard</h2>
       <p className="text-dim">Control and monitor your SmartBox.</p>
 
+      {/* Lock Status & Button */}
       <div
         style={{
           marginTop: "25px",
@@ -72,7 +84,7 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
         </p>
 
         <button
-          onClick={toggleLock}
+          onClick={status === "LOCKED" ? requestUnlock : requestLock}
           className="btn"
           style={{
             width: "100%",
@@ -84,11 +96,13 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
                 : "0 0 10px rgba(255,59,48,0.6)",
           }}
         >
-          {status === "LOCKED" ? "Unlock box" : "Lock box"}
+          {status === "LOCKED" ? "Unlock Box" : "Lock Box"}
         </button>
       </div>
 
+      {/* Recent Activity */}
       <h3 style={{ marginTop: "30px" }}>Recent Activity</h3>
+
       {logs.length > 0 ? (
         <div
           style={{
@@ -108,6 +122,7 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
         <p className="text-dim">No recent activity.</p>
       )}
 
+      {/* Full History Button */}
       <button
         onClick={onHistory}
         className="btn btn-secondary"
