@@ -28,10 +28,21 @@ function CourierDashboard({ onLogout, onSettings }) {
     try {
       await set(ref(db, "devices/box1/courier_signal"), "ARRIVED");
       setMessage("Signal sent! Please scan NFC...");
+
+      const rotatingTokenPayload = {
+        courier: auth.currentUser?.uid || "unknown",
+        timestamp: Date.now(),
+        nonce: crypto.randomUUID(),
+        token: "TEMP_TEST_TOKEN"
+      };
+      console.log("Sending token to Android...", rotatingTokenPayload);
+      sendNfcTokenToAndroid(rotatingTokenPayload);
+
     } catch (err) {
       setMessage("Failed to send signal.");
     }
   };
+
 
   const handleLogout = async () => {
     try {
@@ -41,6 +52,22 @@ function CourierDashboard({ onLogout, onSettings }) {
       console.error("Logout error:", err);
     }
   };
+
+  function sendNfcTokenToAndroid(tokenPayload) {
+    const jsonString = JSON.stringify(tokenPayload);
+
+    if (window.AndroidHCE && window.AndroidHCE.sendToken) {
+      try {
+        window.AndroidHCE.sendToken(jsonString);
+        console.log("Token sent to Android HCE:", jsonString);
+      } catch (error) {
+        console.error("Error sending NFC token:", error);
+      }
+    } else {
+      console.log("AndroidHCE bridge not available (running in browser)");
+    }
+  }
+
 
   return (
     <div className="card-wide">
