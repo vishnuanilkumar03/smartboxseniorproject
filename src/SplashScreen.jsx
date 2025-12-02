@@ -16,11 +16,11 @@ export default function SplashScreen({ onFinish }) {
     <div className={`splash-container ${fadeOut ? "fade-out" : ""}`}>
       <div className="splash-content">
         <h1 className="splash-title">SMART LOCKBOX</h1>
-        <img src="/logo1.png" className="splash-logo-big" />
+        <img src="/icon-192.png" className="splash-logo-big" />
         <p className="splash-welcome">Welcome</p>
       </div>
 
-      <img src="/logo2.png" className={`transition-logo ${fadeOut ? "show" : ""}`} />
+      <img src="/icon-512.png" className={`transition-logo ${fadeOut ? "show" : ""}`} />
     </div>
   );
 }
