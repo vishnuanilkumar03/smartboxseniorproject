@@ -84,7 +84,7 @@ function Dashboard({ onLogout, onSettings, onHistory }) {
                 : "0 0 10px rgba(255,59,48,0.6)",
           }}
         >
-          {status === "LOCKED" ? "Unlock BOX" : "Lock BOX"}
+          {status === "LOCKED" ? "Unlock box" : "Lock box"}
         </button>
       </div>
 
