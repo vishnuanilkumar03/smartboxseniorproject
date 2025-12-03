@@ -1,26 +1,90 @@
+# ============================
+# GLOBAL / SYSTEM IGNORE
+# ============================
+.DS_Store
+Thumbs.db
+desktop.ini
+
 # Logs
-logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
-*.local
+# IDE files
+.vscode/
+.idea/
+*.iml
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+# ============================
+# PWA (Node / Web App)
+# Located in: /pwa
+# ============================
+pwa/node_modules/
+pwa/dist/
+pwa/build/
+pwa/.pnp/
+pwa/.pnp.js
 
-.vercel
+# Environment files
+pwa/.env
+pwa/.env.local
+pwa/.env.*.local
+
+# PWA frameworks
+pwa/.next/
+pwa/.nuxt/
+pwa/.svelte-kit/
+
+# ============================
+# ANDROID STUDIO PROJECT
+# Located in: /android
+# ============================
+# Gradle files
+android/.gradle/
+android/build/
+android/app/build/
+android/app/.cxx/
+
+# Local SDK configs
+android/local.properties
+
+# IntelliJ/Android Studio
+android/.idea/
+android/*.iml
+android/.classpath
+android/.project
+android/.settings/
+
+# Logs & caches
+android/captures/
+android/.externalNativeBuild/
+
+# ============================
+# ARDUINO PROJECT
+# Located in: /arduino
+# ============================
+arduino/*.bin
+arduino/*.elf
+arduino/*.hex
+
+# Arduino build output folders
+arduino/build/
+arduino/.pio/
+
+# Arduino IDE backup files
+*.ino~
+*.bak
+
+# ============================
+# MISC
+# ============================
+# Temporary files
+*.tmp
+*.swp
+*.swo
+
+# Python caches
+__pycache__/
+*.pyc

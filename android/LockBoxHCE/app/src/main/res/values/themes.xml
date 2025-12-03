@@ -1,0 +1,6 @@
+<resources>
+    <style name="Theme.LockBoxHCE" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Optional custom colors -->
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+</resources>
